@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SellPostRepository extends JpaRepository<SellPostEntity, Long> {
 
-  List<SellPostEntity> search(UniversalSearchRequest searchRequest);
 }

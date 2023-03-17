@@ -3,6 +3,7 @@ package com.maxfromeverett.misto.controllers;
 import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
 import com.maxfromeverett.misto.entities.SellPostEntity;
 import com.maxfromeverett.misto.repository.SellPostRepository;
+import com.maxfromeverett.misto.services.SellPostService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/v1/sell-posts")
 public class SellPostController {
 
-  private SellPostRepository repository;
+  private SellPostService service;
 
-  public SellPostController(SellPostRepository repository) {
-    this.repository = repository;
+  public SellPostController(SellPostService service) {
+    this.service = service;
   }
 
   @GetMapping("/all")
   public List<SellPostEntity> getAllSellPosts(){
-    return repository.findAll();
+    return service.findAll();
   }
 
   @PostMapping("/search")
   public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
-    return repository.search(searchRequest);
+    return service.search(searchRequest);
   }
 
 }
