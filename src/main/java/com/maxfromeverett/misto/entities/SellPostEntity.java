@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class SellPostEntity {
-
   private @Id @GeneratedValue Long id;
   private String title;
   private String description;
@@ -24,9 +23,25 @@ public class SellPostEntity {
   private GoodType goodType;
   private Long price;
 
-  public SellPostEntity() {
+  public SellPostEntity(String title, String description, String[] photoFileNames, String author,
+        String phoneNumber, Long zipCode, String town, LocalDateTime postDateTime, Boolean isActive,
+        GoodType goodType, Long price) {
+      this.title = title;
+      this.description = description;
+      this.photoFileNames = photoFileNames;
+      this.author = author;
+      this.phoneNumber = phoneNumber;
+      this.zipCode = zipCode;
+      this.town = town;
+      this.postDateTime = postDateTime;
+      this.isActive = isActive;
+      this.goodType = goodType;
+      this.price = price;
   }
 
+  public  SellPostEntity(){
+
+  }
   public SellPostEntity(Long id, String title, String description, String[] photoFileNames, String author,
       String phoneNumber, Long zipCode, String town, LocalDateTime postDateTime, Boolean isActive,
       GoodType goodType, Long price) {
