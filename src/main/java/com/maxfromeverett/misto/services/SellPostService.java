@@ -12,6 +12,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SellPostService {
@@ -40,14 +41,16 @@ public class SellPostService {
   }
 
   public SellPostEntity findById(Long id) {
-    return repository.findById(id).get();
+    return (SellPostEntity) repository.findById(id).get();
   }
 
   @PostConstruct
   void initDatabase() {
     System.out.println("Initalized");
-    repository.save(new SellPostEntity("Toyota Corolla", "Brand new", (String[]) null, "Max", "4123",
-        Long.valueOf("1231"), "Everett",
-        LocalDateTime.now(), true, GoodType.CARS, Long.valueOf("5000")));
+    repository.save(SellPostEntity.builder()
+        .title("Bicycle")
+        .description("New")
+        .price(new Long(12321))
+        .build());
   }
 }
