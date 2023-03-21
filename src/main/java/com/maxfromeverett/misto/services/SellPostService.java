@@ -45,14 +45,16 @@ public class SellPostService {
     SellPostEntity probe = new SellPostEntity();
 
     if (StringUtils.hasText(searchRequest.getValue())) {
-      System.out.println(searchRequest.getValue());
       probe.setTitle(searchRequest.getValue());
       probe.setDescription(searchRequest.getValue());
     }
-    //        .withIgnorePaths("images", "author", "phoneNumber", "zipCode", "town", "postDateTime", "isActive", "goodType")
-    ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-        .withMatcher("title", match -> match.ignoreCase().contains());
-    Example<SellPostEntity> example = Example.of(probe, exampleMatcher);
+
+    ExampleMatcher matcher = ExampleMatcher.matchingAny()
+        .withStringMatcher(StringMatcher.CONTAINING)
+        .withIgnoreCase();
+
+    Example<SellPostEntity> example = Example.of(probe, matcher);
+
 
     return repository.findAll(example);
   }
