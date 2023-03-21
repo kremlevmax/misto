@@ -1,4 +1,13 @@
 package com.maxfromeverett.misto.dtos;
 
-public record UniversalSearchRequest(String value) {
+public class UniversalSearchRequest {
+  private String value;
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
 }

@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "job_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class JobPostEntity {
+public class JobPostEntity extends Post {
   private BusinessType businessType;
   private String wage;
   private String schedule;

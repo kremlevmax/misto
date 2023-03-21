@@ -17,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "business_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class BusinessPostEntity {
+public class BusinessPostEntity extends Post {
   private BusinessType businessType;
 }

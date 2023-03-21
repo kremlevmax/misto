@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "event_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class EventPostEntity {
+public class EventPostEntity extends Post {
   private String eventLocation;
   private LocalDateTime evenDateTime;
 }

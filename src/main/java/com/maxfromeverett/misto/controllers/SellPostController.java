@@ -1,9 +1,11 @@
 package com.maxfromeverett.misto.controllers;
 
 import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
+import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
 import com.maxfromeverett.misto.services.SellPostService;
 
+import java.util.Optional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +22,12 @@ public class SellPostController {
 
   @GetMapping
   public List<SellPostEntity> getAllSellPosts() {
-    return sellPostService.findAll();
+    return (List<SellPostEntity>) sellPostService.getAllPosts();
   }
 
   @GetMapping("/{id}")
-  public SellPostEntity getSellPostById(@PathVariable Long id) {
-    return sellPostService.findById(id);
+  public Optional<SellPostEntity> getSellPostById(@PathVariable Long id) {
+    return Optional.ofNullable(sellPostService.getPostById(id));
   }
 
   @PostMapping("/search")

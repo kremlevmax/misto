@@ -1,56 +1,74 @@
 package com.maxfromeverett.misto.services;
 
 import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
+import com.maxfromeverett.misto.entities.Image;
+import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
-import com.maxfromeverett.misto.enums.GoodType;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SellPostService {
 
-  private SellPostRepository repository;
+  private final SellPostRepository repository;
 
   public SellPostService(SellPostRepository repository) {
     this.repository = repository;
   }
 
-  public List<SellPostEntity> findAll() {
+  public List<SellPostEntity> getAllPosts() {
     return repository.findAll();
+  }
+
+  public SellPostEntity getPostById(Long id) {
+    return  repository.findById(id).get();
+  }
+
+  public Post savePost(SellPostEntity SellPostEntity) {
+    return repository.save(SellPostEntity);
+  }
+
+  public void deletePostById(Long id) {
+    repository.deleteById(id);
   }
 
   public List<SellPostEntity> search(UniversalSearchRequest searchRequest) {
     SellPostEntity probe = new SellPostEntity();
 
-    if (StringUtils.hasText(searchRequest.value())) {
-      probe.setTitle(searchRequest.value());
-      probe.setDescription(searchRequest.value());
+    if (StringUtils.hasText(searchRequest.getValue())) {
+      System.out.println(searchRequest.getValue());
+      probe.setTitle(searchRequest.getValue());
+      probe.setDescription(searchRequest.getValue());
     }
-    Example<SellPostEntity> example = Example.of(probe, ExampleMatcher.matchingAny()
-        .withIgnoreCase()
-        .withStringMatcher(StringMatcher.CONTAINING));
-    return repository.findAll(example);
-  }
+    //        .withIgnorePaths("images", "author", "phoneNumber", "zipCode", "town", "postDateTime", "isActive", "goodType")
+    ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+        .withMatcher("title", match -> match.ignoreCase().contains());
+    Example<SellPostEntity> example = Example.of(probe, exampleMatcher);
 
-  public SellPostEntity findById(Long id) {
-    return (SellPostEntity) repository.findById(id).get();
+    return repository.findAll(example);
   }
 
   @PostConstruct
   void initDatabase() {
-    System.out.println("Initalized");
     repository.save(SellPostEntity.builder()
         .title("Bicycle")
         .description("New")
-        .price(new Long(12321))
+        .price(Long.valueOf(12321))
+        .build());
+
+    repository.save(SellPostEntity.builder()
+        .title("boat")
+        .description("old")
+        .price(Long.valueOf(12321))
         .build());
   }
 }
