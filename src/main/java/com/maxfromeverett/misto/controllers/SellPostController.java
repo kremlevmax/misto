@@ -30,6 +30,11 @@ public class SellPostController {
     return Optional.ofNullable(sellPostService.getPostById(id));
   }
 
+  @DeleteMapping("/{id}")
+  public void deleteById(@PathVariable Long id) {
+    sellPostService.deletePostById(id);
+  }
+
   @PostMapping("/search")
   public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
     return sellPostService.search(searchRequest);

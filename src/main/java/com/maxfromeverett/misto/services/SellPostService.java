@@ -6,10 +6,7 @@ import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
@@ -54,8 +51,6 @@ public class SellPostService {
         .withIgnoreCase();
 
     Example<SellPostEntity> example = Example.of(probe, matcher);
-
-
     return repository.findAll(example);
   }
 
