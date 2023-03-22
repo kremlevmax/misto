@@ -1,9 +1,9 @@
 package com.maxfromeverett.misto.services;
 
 import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
-import com.maxfromeverett.misto.entities.Image;
 import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
+import com.maxfromeverett.misto.enums.GoodType;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
@@ -22,7 +22,12 @@ public class SellPostService {
     this.repository = repository;
   }
 
-  public List<SellPostEntity> getAllPosts() {
+  public List<SellPostEntity> getAllPosts(Long from, Long to) {
+    if (from.equals(null) && to.equals(null)) {
+      return repository.findAll();
+    } else if (to.equals(null)) {
+      return repository.findByPriceGreaterThanEqual(from);
+    }
     return repository.findAll();
   }
 
@@ -54,18 +59,32 @@ public class SellPostService {
     return repository.findAll(example);
   }
 
+  public List<SellPostEntity> findByGoodType(String goodTypeString) {
+    GoodType goodType = GoodType.valueOf(goodTypeString.toUpperCase());
+    return repository.findByGoodType(goodType);
+  }
+
   @PostConstruct
   void initDatabase() {
     repository.save(SellPostEntity.builder()
         .title("Bicycle")
         .description("New")
         .price(Long.valueOf(12321))
+        .goodType(GoodType.BIKES)
         .build());
 
     repository.save(SellPostEntity.builder()
         .title("boat")
         .description("old")
         .price(Long.valueOf(12321))
+        .goodType(GoodType.BOATS)
+        .build());
+
+    repository.save(SellPostEntity.builder()
+        .title("Телевизор")
+        .description("Большой")
+        .price(Long.valueOf(12321))
+        .goodType(GoodType.ELECTRONICS)
         .build());
   }
 }

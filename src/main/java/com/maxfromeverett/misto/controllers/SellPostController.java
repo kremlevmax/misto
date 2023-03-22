@@ -1,7 +1,6 @@
 package com.maxfromeverett.misto.controllers;
 
 import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
-import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
 import com.maxfromeverett.misto.services.SellPostService;
 
@@ -21,8 +20,10 @@ public class SellPostController {
   }
 
   @GetMapping
-  public List<SellPostEntity> getAllSellPosts() {
-    return (List<SellPostEntity>) sellPostService.getAllPosts();
+  public List<SellPostEntity> getAllSellPosts(
+      @RequestParam("from") Long from,
+      @RequestParam("to") Long to) {
+    return sellPostService.getAllPosts(from, to);
   }
 
   @GetMapping("/{id}")
@@ -37,6 +38,12 @@ public class SellPostController {
 
   @PostMapping("/search")
   public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
+    System.out.println(searchRequest.toString());
     return sellPostService.search(searchRequest);
+  }
+
+  @GetMapping("/category/{goodType}")
+  public List<SellPostEntity> openSellPostCategory(@PathVariable String goodType){
+    return sellPostService.findByGoodType(goodType);
   }
 }
