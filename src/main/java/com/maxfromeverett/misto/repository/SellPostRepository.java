@@ -10,4 +10,8 @@ public interface SellPostRepository extends JpaRepository<SellPostEntity, Long> 
   List<SellPostEntity> findByGoodType(GoodType goodType);
 
   List<SellPostEntity> findByPriceGreaterThanEqual(Long from);
+
+  List<SellPostEntity> findByPriceLessThanEqual(Long to);
+
+  List<SellPostEntity> findByPriceGreaterThanEqualAndPriceLessThanEqual(Long from, Long to);
 }

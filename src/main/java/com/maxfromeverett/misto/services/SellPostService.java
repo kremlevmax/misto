@@ -7,6 +7,7 @@ import com.maxfromeverett.misto.enums.GoodType;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
@@ -22,13 +23,18 @@ public class SellPostService {
     this.repository = repository;
   }
 
-  public List<SellPostEntity> getAllPosts(Long from, Long to) {
-    if (from.equals(null) && to.equals(null)) {
+  public List<SellPostEntity> getAllPosts(Optional<Long> fromOptional, Optional<Long> toOptional) {
+    Long from = fromOptional.orElse(null);
+    Long to = toOptional.orElse(null);
+
+    if (from == null && to == null) {
       return repository.findAll();
-    } else if (to.equals(null)) {
+    } else if (to == null) {
       return repository.findByPriceGreaterThanEqual(from);
+    } else if (from == null) {
+      return repository.findByPriceLessThanEqual(to);
     }
-    return repository.findAll();
+    return repository.findByPriceGreaterThanEqualAndPriceLessThanEqual(from, to);
   }
 
   public SellPostEntity getPostById(Long id) {

@@ -21,9 +21,9 @@ public class SellPostController {
 
   @GetMapping
   public List<SellPostEntity> getAllSellPosts(
-      @RequestParam("from") Long from,
-      @RequestParam("to") Long to) {
-    return sellPostService.getAllPosts(from, to);
+      @RequestParam("from") Optional<Long> fromOptional,
+      @RequestParam("to") Optional<Long> toOptional) {
+    return sellPostService.getAllPosts(fromOptional, toOptional);
   }
 
   @GetMapping("/{id}")
