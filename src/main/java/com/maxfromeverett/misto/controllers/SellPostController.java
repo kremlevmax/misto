@@ -41,9 +41,4 @@ public class SellPostController {
   public List<SellPostEntity> openSellPostCategory(@PathVariable String goodType){
     return sellPostService.findByGoodType(goodType);
   }
-
-//  @PostMapping("/search")
-//  public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
-//    return sellPostService.search(searchRequest);
-//  }
 }

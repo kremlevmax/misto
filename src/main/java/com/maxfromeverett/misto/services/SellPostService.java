@@ -1,6 +1,5 @@
 package com.maxfromeverett.misto.services;
 
-import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
 import com.maxfromeverett.misto.entities.Post;
 import com.maxfromeverett.misto.entities.SellPostEntity;
 import com.maxfromeverett.misto.enums.GoodType;
@@ -8,11 +7,7 @@ import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 public class SellPostService {
@@ -28,24 +23,15 @@ public class SellPostService {
       Optional<Long> fromOptional,
       Optional<Long> toOptional
   ) {
-    String searchRequest = searchRequestOptional.orElse(null);
-    Long from = fromOptional.orElse(null);
-    Long to = toOptional.orElse(null);
+    String searchRequest = searchRequestOptional.orElse("%");
+    Long from = fromOptional.orElse(repository.getMinPrice());
+    Long to = toOptional.orElse(repository.getMaxPrice());
 
-    SellPostEntity probe = new SellPostEntity();
-
-    if (searchRequest != null) {
-      probe.setTitle(searchRequest);
-      probe.setDescription(searchRequest);
+    if (!searchRequest.equals("%")) {
+      searchRequest = "%".concat(searchRequest).concat("%");
     }
 
-    ExampleMatcher matcher = ExampleMatcher.matchingAny()
-        .withStringMatcher(StringMatcher.CONTAINING)
-        .withIgnoreCase();
-
-    Example<SellPostEntity> example = Example.of(probe, matcher);
-    example.
-    return repository.findAll(example);
+    return repository.findBySearchQueryStringBetweenPriceMargins(searchRequest, from, to);
   }
 
   public SellPostEntity getPostById(Long id) {
@@ -60,22 +46,6 @@ public class SellPostService {
     repository.deleteById(id);
   }
 
-  public List<SellPostEntity> search(UniversalSearchRequest searchRequest) {
-    SellPostEntity probe = new SellPostEntity();
-
-    if (StringUtils.hasText(searchRequest.getValue())) {
-      probe.setTitle(searchRequest.getValue());
-      probe.setDescription(searchRequest.getValue());
-    }
-
-    ExampleMatcher matcher = ExampleMatcher.matchingAny()
-        .withStringMatcher(StringMatcher.CONTAINING)
-        .withIgnoreCase();
-
-    Example<SellPostEntity> example = Example.of(probe, matcher);
-    return repository.findAll(example);
-  }
-
   public List<SellPostEntity> findByGoodType(String goodTypeString) {
     GoodType goodType = GoodType.valueOf(goodTypeString.toUpperCase());
     return repository.findByGoodType(goodType);
@@ -86,21 +56,21 @@ public class SellPostService {
     repository.save(SellPostEntity.builder()
         .title("Bicycle")
         .description("New")
-        .price(Long.valueOf(12321))
+        .price(Long.valueOf(100))
         .goodType(GoodType.BIKES)
         .build());
 
     repository.save(SellPostEntity.builder()
         .title("boat")
         .description("old")
-        .price(Long.valueOf(12321))
+        .price(Long.valueOf(300))
         .goodType(GoodType.BOATS)
         .build());
 
     repository.save(SellPostEntity.builder()
         .title("Телевизор")
         .description("Большой")
-        .price(Long.valueOf(12321))
+        .price(Long.valueOf(500))
         .goodType(GoodType.ELECTRONICS)
         .build());
   }
