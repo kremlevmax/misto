@@ -20,10 +20,11 @@ public class SellPostController {
   }
 
   @GetMapping
-  public List<SellPostEntity> getAllSellPosts(
+  public List<SellPostEntity> getAllSellPostsOptionallyFiltered(
+      @RequestParam("search") Optional<String> searchRequest,
       @RequestParam("from") Optional<Long> fromOptional,
       @RequestParam("to") Optional<Long> toOptional) {
-    return sellPostService.getAllPosts(fromOptional, toOptional);
+    return sellPostService.getAllPosts(searchRequest, fromOptional, toOptional);
   }
 
   @GetMapping("/{id}")
@@ -36,14 +37,13 @@ public class SellPostController {
     sellPostService.deletePostById(id);
   }
 
-  @PostMapping("/search")
-  public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
-    System.out.println(searchRequest.toString());
-    return sellPostService.search(searchRequest);
-  }
-
   @GetMapping("/category/{goodType}")
   public List<SellPostEntity> openSellPostCategory(@PathVariable String goodType){
     return sellPostService.findByGoodType(goodType);
   }
+
+//  @PostMapping("/search")
+//  public List<SellPostEntity> universalSearch(@ModelAttribute UniversalSearchRequest searchRequest) {
+//    return sellPostService.search(searchRequest);
+//  }
 }

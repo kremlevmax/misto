@@ -23,18 +23,29 @@ public class SellPostService {
     this.repository = repository;
   }
 
-  public List<SellPostEntity> getAllPosts(Optional<Long> fromOptional, Optional<Long> toOptional) {
+  public List<SellPostEntity> getAllPosts(
+      Optional<String> searchRequestOptional,
+      Optional<Long> fromOptional,
+      Optional<Long> toOptional
+  ) {
+    String searchRequest = searchRequestOptional.orElse(null);
     Long from = fromOptional.orElse(null);
     Long to = toOptional.orElse(null);
 
-    if (from == null && to == null) {
-      return repository.findAll();
-    } else if (to == null) {
-      return repository.findByPriceGreaterThanEqual(from);
-    } else if (from == null) {
-      return repository.findByPriceLessThanEqual(to);
+    SellPostEntity probe = new SellPostEntity();
+
+    if (searchRequest != null) {
+      probe.setTitle(searchRequest);
+      probe.setDescription(searchRequest);
     }
-    return repository.findByPriceGreaterThanEqualAndPriceLessThanEqual(from, to);
+
+    ExampleMatcher matcher = ExampleMatcher.matchingAny()
+        .withStringMatcher(StringMatcher.CONTAINING)
+        .withIgnoreCase();
+
+    Example<SellPostEntity> example = Example.of(probe, matcher);
+    example.
+    return repository.findAll(example);
   }
 
   public SellPostEntity getPostById(Long id) {
