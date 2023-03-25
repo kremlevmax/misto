@@ -27,6 +27,11 @@ public class SellPostController {
     return sellPostService.getAllPosts(searchRequest, fromOptional, toOptional);
   }
 
+  @PostMapping
+  public SellPostEntity savePost(@ModelAttribute SellPostEntity sellPostEntity){
+    return sellPostService.savePost(sellPostEntity);
+  }
+
   @GetMapping("/{id}")
   public Optional<SellPostEntity> getSellPostById(@PathVariable Long id) {
     return Optional.ofNullable(sellPostService.getPostById(id));
