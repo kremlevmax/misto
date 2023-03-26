@@ -1,9 +1,11 @@
-package com.maxfromeverett.misto.dao;
+package com.maxfromeverett.misto.entity;
 
-import com.maxfromeverett.misto.enums.GoodType;
+import com.maxfromeverett.misto.entity.enums.GoodType;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

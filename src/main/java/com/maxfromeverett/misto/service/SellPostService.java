@@ -1,7 +1,7 @@
-package com.maxfromeverett.misto.services;
+package com.maxfromeverett.misto.service;
 
-import com.maxfromeverett.misto.dao.SellPost;
-import com.maxfromeverett.misto.enums.GoodType;
+import com.maxfromeverett.misto.entity.SellPost;
+import com.maxfromeverett.misto.entity.enums.GoodType;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;

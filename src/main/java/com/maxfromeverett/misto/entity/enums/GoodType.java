@@ -1,4 +1,4 @@
-package com.maxfromeverett.misto.enums;
+package com.maxfromeverett.misto.entity.enums;
 
 public enum GoodType {
   APPLIANCES,

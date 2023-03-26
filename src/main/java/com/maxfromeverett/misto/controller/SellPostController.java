@@ -1,7 +1,7 @@
-package com.maxfromeverett.misto.controllers;
+package com.maxfromeverett.misto.controller;
 
-import com.maxfromeverett.misto.dao.SellPost;
-import com.maxfromeverett.misto.services.SellPostService;
+import com.maxfromeverett.misto.entity.SellPost;
+import com.maxfromeverett.misto.service.SellPostService;
 
 import java.util.Optional;
 import org.springframework.web.bind.annotation.*;

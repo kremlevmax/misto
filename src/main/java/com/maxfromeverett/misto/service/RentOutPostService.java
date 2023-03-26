@@ -1,6 +1,6 @@
-package com.maxfromeverett.misto.services;
+package com.maxfromeverett.misto.service;
 
-import com.maxfromeverett.misto.dao.RentOutPost;
+import com.maxfromeverett.misto.entity.RentOutPost;
 import com.maxfromeverett.misto.repository.RentOutPostRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;

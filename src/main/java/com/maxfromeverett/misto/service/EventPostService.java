@@ -1,4 +1,4 @@
-package com.maxfromeverett.misto.services;
+package com.maxfromeverett.misto.service;
 
 import org.springframework.stereotype.Service;
 
