@@ -1,7 +1,6 @@
 package com.maxfromeverett.misto.controllers;
 
-import com.maxfromeverett.misto.dtos.UniversalSearchRequest;
-import com.maxfromeverett.misto.entities.SellPostEntity;
+import com.maxfromeverett.misto.dao.SellPost;
 import com.maxfromeverett.misto.services.SellPostService;
 
 import java.util.Optional;
@@ -20,7 +19,7 @@ public class SellPostController {
   }
 
   @GetMapping
-  public List<SellPostEntity> getAllSellPostsOptionallyFiltered(
+  public List<SellPost> getAllSellPostsOptionallyFiltered(
       @RequestParam("search") Optional<String> searchRequest,
       @RequestParam("from") Optional<Long> fromOptional,
       @RequestParam("to") Optional<Long> toOptional) {
@@ -28,12 +27,12 @@ public class SellPostController {
   }
 
   @PostMapping
-  public SellPostEntity savePost(@ModelAttribute SellPostEntity sellPostEntity){
-    return sellPostService.savePost(sellPostEntity);
+  public SellPost savePost(@ModelAttribute SellPost sellPost){
+    return sellPostService.savePost(sellPost);
   }
 
   @GetMapping("/{id}")
-  public Optional<SellPostEntity> getSellPostById(@PathVariable Long id) {
+  public Optional<SellPost> getSellPostById(@PathVariable Long id) {
     return Optional.ofNullable(sellPostService.getPostById(id));
   }
 
@@ -43,7 +42,7 @@ public class SellPostController {
   }
 
   @GetMapping("/category/{goodType}")
-  public List<SellPostEntity> openSellPostCategory(@PathVariable String goodType){
+  public List<SellPost> openSellPostCategory(@PathVariable String goodType){
     return sellPostService.findByGoodType(goodType);
   }
 }

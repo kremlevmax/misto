@@ -1,6 +1,6 @@
 package com.maxfromeverett.misto.services;
 
-import com.maxfromeverett.misto.entities.SellPostEntity;
+import com.maxfromeverett.misto.dao.SellPost;
 import com.maxfromeverett.misto.enums.GoodType;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
@@ -20,7 +20,7 @@ public class SellPostService {
     this.repository = repository;
   }
 
-  public List<SellPostEntity> getAllPosts(
+  public List<SellPost> getAllPosts(
       Optional<String> searchRequestOptional,
       Optional<Long> fromOptional,
       Optional<Long> toOptional
@@ -36,23 +36,23 @@ public class SellPostService {
     return repository.findBySearchQueryStringBetweenPriceMargins(searchRequest, from, to);
   }
 
-  public SellPostEntity getPostById(Long id) {
+  public SellPost getPostById(Long id) {
     return  repository.findById(id).get();
   }
 
-  public SellPostEntity savePost(SellPostEntity sellPostEntity) {
-    return repository.save(SellPostEntity.builder()
-        .title(sellPostEntity.getTitle())
-        .description(sellPostEntity.getDescription())
-        .images(sellPostEntity.getImages())
-        .author(sellPostEntity.getAuthor())
-        .phoneNumber(sellPostEntity.getPhoneNumber())
-        .zipCode(sellPostEntity.getZipCode())
-        .town(sellPostEntity.getTown())
+  public SellPost savePost(SellPost sellPost) {
+    return repository.save(SellPost.builder()
+        .title(sellPost.getTitle())
+        .description(sellPost.getDescription())
+        .images(sellPost.getImages())
+        .author(sellPost.getAuthor())
+        .phoneNumber(sellPost.getPhoneNumber())
+        .zipCode(sellPost.getZipCode())
+        .town(sellPost.getTown())
         .postDateTime(LocalDateTime.now())
-        .goodType(sellPostEntity.getGoodType())
+        .goodType(sellPost.getGoodType())
         .isActive(true)
-        .price(sellPostEntity.getPrice())
+        .price(sellPost.getPrice())
         .build());
   }
 
@@ -60,28 +60,28 @@ public class SellPostService {
     repository.deleteById(id);
   }
 
-  public List<SellPostEntity> findByGoodType(String goodTypeString) {
+  public List<SellPost> findByGoodType(String goodTypeString) {
     GoodType goodType = GoodType.valueOf(goodTypeString.toUpperCase());
     return repository.findByGoodType(goodType);
   }
 
   @PostConstruct
   void initDatabase() {
-    repository.save(SellPostEntity.builder()
+    repository.save(SellPost.builder()
         .title("Bicycle")
         .description("New")
         .price(Long.valueOf(100))
         .goodType(GoodType.BIKES)
         .build());
 
-    repository.save(SellPostEntity.builder()
+    repository.save(SellPost.builder()
         .title("boat")
         .description("old")
         .price(Long.valueOf(300))
         .goodType(GoodType.BOATS)
         .build());
 
-    repository.save(SellPostEntity.builder()
+    repository.save(SellPost.builder()
         .title("Телевизор")
         .description("Большой")
         .price(Long.valueOf(500))

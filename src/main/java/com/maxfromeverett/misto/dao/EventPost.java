@@ -1,9 +1,6 @@
-package com.maxfromeverett.misto.entities;
+package com.maxfromeverett.misto.dao;
 
-import com.maxfromeverett.misto.enums.BusinessType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -14,9 +11,10 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@Table(name = "business_posts")
+@Table(name = "event_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class BusinessPostEntity extends Post {
-  private BusinessType businessType;
+public class EventPost extends Post {
+  private String eventLocation;
+  private LocalDateTime evenDateTime;
 }

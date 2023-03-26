@@ -1,8 +1,8 @@
 package com.maxfromeverett.misto.repository;
 
-import com.maxfromeverett.misto.entities.JobPostEntity;
+import com.maxfromeverett.misto.dao.JobPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JobPostRepository extends JpaRepository<JobPostEntity, Long> {
+public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
 }

@@ -1,12 +1,7 @@
-package com.maxfromeverett.misto.entities;
+package com.maxfromeverett.misto.dao;
 
-import com.maxfromeverett.misto.enums.GoodType;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,10 +10,13 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@Table(name = "sell_posts")
+@Table(name = "rent_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class SellPostEntity extends Post {
-  private GoodType goodType;
+public class RentOutPost extends Post {
+
+  private Long bedroomNumber;
+  private Long bathroomNumber;
+  private Long totalArea;
   private Long price;
 }

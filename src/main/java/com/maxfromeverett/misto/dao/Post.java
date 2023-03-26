@@ -1,4 +1,4 @@
-package com.maxfromeverett.misto.entities;
+package com.maxfromeverett.misto.dao;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;

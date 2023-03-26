@@ -1,5 +1,6 @@
-package com.maxfromeverett.misto.entities;
+package com.maxfromeverett.misto.dao;
 
+import com.maxfromeverett.misto.enums.BusinessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -10,13 +11,9 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@Table(name = "rent_posts")
+@Table(name = "business_posts")
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class RentOutPostEntity extends Post {
-
-  private Long bedroomNumber;
-  private Long bathroomNumber;
-  private Long totalArea;
-  private Long price;
+public class BusinessPost extends Post {
+  private BusinessType businessType;
 }

@@ -1,4 +1,4 @@
-package com.maxfromeverett.misto.entities;
+package com.maxfromeverett.misto.dao;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,8 +1,8 @@
 package com.maxfromeverett.misto.repository;
 
-import com.maxfromeverett.misto.entities.RentOutPostEntity;
+import com.maxfromeverett.misto.dao.RentOutPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RentOutPostRepository extends JpaRepository<RentOutPostEntity, Long> {
+public interface RentOutPostRepository extends JpaRepository<RentOutPost, Long> {
 
 }
