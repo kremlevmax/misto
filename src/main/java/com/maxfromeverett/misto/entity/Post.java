@@ -8,16 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
-//@MappedSuperclass
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 @Entity
@@ -26,7 +27,11 @@ public abstract class Post {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @NotBlank(message = "Title has to be provided for creating a post")
   private String title;
+
+  @NotBlank(message = "Description has to be provided for creating a post")
   private String description;
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,6 +43,4 @@ public abstract class Post {
   private String town;
   private LocalDateTime postDateTime;
   private Boolean isActive;
-
-
 }

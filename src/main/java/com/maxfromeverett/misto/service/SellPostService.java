@@ -2,11 +2,17 @@ package com.maxfromeverett.misto.service;
 
 import com.maxfromeverett.misto.entity.SellPost;
 import com.maxfromeverett.misto.entity.enums.GoodType;
+import com.maxfromeverett.misto.exceptions.NotEnoughInformationException;
+import com.maxfromeverett.misto.exceptions.PostNotFoundException;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SellPostService {
 
+  private final Validator validator;
   private final SellPostRepository repository;
 
-  public SellPostService(SellPostRepository repository) {
+  public SellPostService(Validator validator, SellPostRepository repository) {
+    this.validator = validator;
     this.repository = repository;
   }
 
@@ -37,10 +45,24 @@ public class SellPostService {
   }
 
   public SellPost getPostById(Long id) {
-    return  repository.findById(id).get();
+    Optional<SellPost> sellPost = repository.findById(id);
+
+    if (!sellPost.isPresent()) {
+      throw new PostNotFoundException(
+          "Error occurred: Post with id "
+          + id + " doesn't exist or was deleted");
+    }
+    return  sellPost.get();
   }
 
   public SellPost savePost(SellPost sellPost) {
+    Set<ConstraintViolation<SellPost>> violations = validator.validate(sellPost);
+
+    System.out.println("!!!");
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException(violations);
+    }
+
     return repository.save(SellPost.builder()
         .title(sellPost.getTitle())
         .description(sellPost.getDescription())
