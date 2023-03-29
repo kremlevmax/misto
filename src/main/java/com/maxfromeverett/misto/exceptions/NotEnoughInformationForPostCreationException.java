@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class NotEnoughInformationException extends RuntimeException {
+public class NotEnoughInformationForPostCreationException extends RuntimeException {
 
-  public NotEnoughInformationException(String message) {
+  public NotEnoughInformationForPostCreationException(String message) {
     super(message);
   }
 }

@@ -2,30 +2,27 @@ package com.maxfromeverett.misto.controller;
 
 import com.maxfromeverett.misto.dto.SellPostDto;
 import com.maxfromeverett.misto.entity.SellPost;
-import com.maxfromeverett.misto.exceptions.NotEnoughInformationException;
+import com.maxfromeverett.misto.exceptions.ErrorResponse;
 import com.maxfromeverett.misto.service.SellPostService;
-
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.context.request.WebRequest;
 
 @RestController
 @RequestMapping("/api/v1/sell-posts")
+@AllArgsConstructor
 public class SellPostController {
 
   private final SellPostService sellPostService;
-
-  public SellPostController(SellPostService sellPostService) {
-    this.sellPostService = sellPostService;
-  }
-
   @GetMapping
   public List<SellPostDto> getAllSellPostsOptionallyFiltered(
       @RequestParam("search") Optional<String> searchRequest,
@@ -38,8 +35,8 @@ public class SellPostController {
   }
 
   @PostMapping
-  public SellPostDto savePost(@ModelAttribute SellPost sellPost){
-      return SellPostDto.fromSellPost(sellPostService.savePost(sellPost));
+  public SellPostDto savePost(@Valid @ModelAttribute SellPost sellPost, BindingResult bindingResult){
+      return SellPostDto.fromSellPost(sellPostService.savePost(sellPost, bindingResult));
   }
 
   @GetMapping("/{id}")

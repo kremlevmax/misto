@@ -9,13 +9,13 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Setter
@@ -39,6 +39,8 @@ public abstract class Post {
 
   private String author;
   private String phoneNumber;
+
+  @NotNull(message = "Zip has to be provided for creating a post")
   private Long zipCode;
   private String town;
   private LocalDateTime postDateTime;

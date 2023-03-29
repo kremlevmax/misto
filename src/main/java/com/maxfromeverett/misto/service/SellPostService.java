@@ -2,29 +2,25 @@ package com.maxfromeverett.misto.service;
 
 import com.maxfromeverett.misto.entity.SellPost;
 import com.maxfromeverett.misto.entity.enums.GoodType;
-import com.maxfromeverett.misto.exceptions.NotEnoughInformationException;
+import com.maxfromeverett.misto.exceptions.NotEnoughInformationForPostCreationException;
 import com.maxfromeverett.misto.exceptions.PostNotFoundException;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 @Service
 @Transactional
 public class SellPostService {
 
-  private final Validator validator;
   private final SellPostRepository repository;
 
-  public SellPostService(Validator validator, SellPostRepository repository) {
-    this.validator = validator;
+  public SellPostService(SellPostRepository repository) {
     this.repository = repository;
   }
 
@@ -49,18 +45,15 @@ public class SellPostService {
 
     if (!sellPost.isPresent()) {
       throw new PostNotFoundException(
-          "Error occurred: Post with id "
-          + id + " doesn't exist or was deleted");
+          "Error: Post with id " + id + " doesn't exist or was deleted");
     }
     return  sellPost.get();
   }
 
-  public SellPost savePost(SellPost sellPost) {
-    Set<ConstraintViolation<SellPost>> violations = validator.validate(sellPost);
-
-    System.out.println("!!!");
-    if (!violations.isEmpty()) {
-      throw new ConstraintViolationException(violations);
+  public SellPost savePost(SellPost sellPost, BindingResult bindingResult) {
+    if (bindingResult.hasErrors()) {
+      String errorMessage = "Error: " + bindingResult.getFieldError().getDefaultMessage();
+      throw new NotEnoughInformationForPostCreationException(errorMessage);
     }
 
     return repository.save(SellPost.builder()
@@ -94,6 +87,7 @@ public class SellPostService {
         .description("New")
         .price(Long.valueOf(100))
         .goodType(GoodType.BIKES)
+        .zipCode(Long.valueOf(12345))
         .build());
 
     repository.save(SellPost.builder()
@@ -101,6 +95,7 @@ public class SellPostService {
         .description("old")
         .price(Long.valueOf(300))
         .goodType(GoodType.BOATS)
+        .zipCode(Long.valueOf(12345))
         .build());
 
     repository.save(SellPost.builder()
@@ -108,6 +103,7 @@ public class SellPostService {
         .description("Большой")
         .price(Long.valueOf(500))
         .goodType(GoodType.ELECTRONICS)
+        .zipCode(Long.valueOf(12345))
         .build());
   }
 }
