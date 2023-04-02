@@ -1,5 +1,6 @@
 package com.maxfromeverett.misto.service;
 
+import com.maxfromeverett.misto.entity.Image;
 import com.maxfromeverett.misto.repository.ImageRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +13,7 @@ public class ImageService {
     this.repository = repository;
   }
 
-
+  public Image saveImage() {
+    return null;
+  }
 }
