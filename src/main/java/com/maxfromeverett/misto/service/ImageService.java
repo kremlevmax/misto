@@ -15,6 +15,5 @@ public class ImageService {
 
   public Image saveImage() {
     return null;
-    //
   }
 }
