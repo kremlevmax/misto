@@ -12,14 +12,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
+@NoArgsConstructor( force=true)
 @SuperBuilder(toBuilder = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
