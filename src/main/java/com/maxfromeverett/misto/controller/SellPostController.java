@@ -18,7 +18,8 @@ import java.util.List;
 import org.springframework.web.context.request.WebRequest;
 
 @RestController
-@RequestMapping("/api/v1/sell-posts")
+@RequestMapping(path = "/api/v1/sell-posts", produces = "application/json")
+//@CrossOrigin(origins = "http://localhost:8080/")
 @AllArgsConstructor
 public class SellPostController {
 
@@ -35,7 +36,7 @@ public class SellPostController {
   }
 
   @PostMapping
-  public SellPostDto savePost(@Valid @ModelAttribute SellPost sellPost, BindingResult bindingResult){
+  public SellPostDto savePost(@Valid @RequestBody SellPost sellPost, BindingResult bindingResult){
       return SellPostDto.fromSellPost(sellPostService.savePost(sellPost, bindingResult));
   }
 

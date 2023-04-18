@@ -47,7 +47,7 @@ public class SellPostService {
       throw new PostNotFoundException(
           "Error: Post with id " + id + " doesn't exist or was deleted");
     }
-    return  sellPost.get();
+    return sellPost.get();
   }
 
   public SellPost savePost(SellPost sellPost, BindingResult bindingResult) {
