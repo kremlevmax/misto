@@ -1,29 +1,25 @@
 package com.maxfromeverett.misto.entity;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor( force=true)
 @SuperBuilder(toBuilder = true)
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 public abstract class Post {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,8 +31,9 @@ public abstract class Post {
   @NotBlank(message = "Description has to be provided for creating a post")
   private String description;
 
-  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Image> images;
+  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)   //mappedBy = "post",
+  @JoinColumn(name = "post_id")
+  private List<Image> images = new ArrayList<>();
 
   private String author;
   private String phoneNumber;
@@ -46,4 +43,8 @@ public abstract class Post {
   private String town;
   private LocalDateTime postDateTime;
   private Boolean isActive;
+
+  public void updateImageList(List<Image> images) {
+    this.images = new ArrayList<>(images);
+  }
 }

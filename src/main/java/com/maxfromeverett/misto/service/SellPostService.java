@@ -90,7 +90,7 @@ public class SellPostService {
       postToPatch.setDescription(patch.getDescription());
     }
     if (patch.getImages() != null) {
-      postToPatch.setImages(patch.getImages());
+      postToPatch.updateImageList(patch.getImages());
     }
     if (patch.getPhoneNumber() != null) {
       postToPatch.setPhoneNumber(patch.getPhoneNumber());
