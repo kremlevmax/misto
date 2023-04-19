@@ -2,7 +2,6 @@ package com.maxfromeverett.misto.service;
 
 import com.maxfromeverett.misto.entity.SellPost;
 import com.maxfromeverett.misto.entity.enums.GoodType;
-import com.maxfromeverett.misto.exceptions.NotEnoughInformationForPostCreationException;
 import com.maxfromeverett.misto.exceptions.PostNotFoundException;
 import com.maxfromeverett.misto.repository.SellPostRepository;
 import jakarta.annotation.PostConstruct;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 @Service
 @Transactional
@@ -24,20 +22,27 @@ public class SellPostService {
     this.repository = repository;
   }
 
-  public List<SellPost> getAllPosts(
+  public List<SellPost> getSellPosts(
       Optional<String> searchRequestOptional,
       Optional<Long> fromOptional,
-      Optional<Long> toOptional
+      Optional<Long> toOptional,
+      Optional<String> goodTypeOptional
   ) {
     String searchRequest = searchRequestOptional.orElse("%");
     Long from = fromOptional.orElse(repository.getMinPrice());
     Long to = toOptional.orElse(repository.getMaxPrice());
+    String goodTypeString = goodTypeOptional.orElse(null);
 
     if (!searchRequest.equals("%")) {
       searchRequest = "%".concat(searchRequest).concat("%");
     }
 
-    return repository.findBySearchQueryStringBetweenPriceMargins(searchRequest, from, to);
+    if (goodTypeString == null) {
+      return repository.findBySearchQueryStringBetweenPriceMargins(searchRequest, from, to);
+    }
+
+    GoodType goodType = GoodType.valueOf(goodTypeString);
+    return repository.findBySearchQueryStringBetweenPriceMarginsByGoodType(searchRequest, from, to, goodType);
   }
 
   public SellPost getPostById(Long id) {
@@ -50,12 +55,7 @@ public class SellPostService {
     return sellPost.get();
   }
 
-  public SellPost savePost(SellPost sellPost, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      String errorMessage = "Error: " + bindingResult.getFieldError().getDefaultMessage();
-      throw new NotEnoughInformationForPostCreationException(errorMessage);
-    }
-
+  public SellPost savePost(SellPost sellPost) {
     return repository.save(SellPost.builder()
         .title(sellPost.getTitle())
         .description(sellPost.getDescription())
@@ -71,13 +71,43 @@ public class SellPostService {
         .build());
   }
 
-  public void deletePostById(Long id) {
+  public void deleteSellPostById(Long id) {
     repository.deleteById(id);
   }
 
   public List<SellPost> findByGoodType(String goodTypeString) {
     GoodType goodType = GoodType.valueOf(goodTypeString.toUpperCase());
     return repository.findByGoodType(goodType);
+  }
+
+  public SellPost patchSellPostById(Long id, SellPost patch) {
+    SellPost postToPatch = getPostById(id);
+
+    if (patch.getTitle() != null) {
+      postToPatch.setTitle(patch.getTitle());
+    }
+    if (patch.getDescription() != null) {
+      postToPatch.setDescription(patch.getDescription());
+    }
+    if (patch.getImages() != null) {
+      postToPatch.setImages(patch.getImages());
+    }
+    if (patch.getPhoneNumber() != null) {
+      postToPatch.setPhoneNumber(patch.getPhoneNumber());
+    }
+    if (patch.getZipCode() != null) {
+      postToPatch.setZipCode(patch.getZipCode());
+    }
+    if (patch.getTown() != null) {
+      postToPatch.setTown(patch.getTown());
+    }
+    if (patch.getGoodType() != null) {
+      postToPatch.setGoodType(patch.getGoodType());
+    }
+    if (patch.getPrice() != null) {
+      postToPatch.setPrice(patch.getPrice());
+    }
+    return savePost(postToPatch);
   }
 
   @PostConstruct
@@ -106,4 +136,6 @@ public class SellPostService {
         .zipCode(Long.valueOf(12345))
         .build());
   }
+
+
 }

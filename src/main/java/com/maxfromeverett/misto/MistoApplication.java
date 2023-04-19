@@ -7,9 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MistoApplication {
 
 	public static void main(String[] args) {
-
-		SpringApplication springApplication = new SpringApplication(MistoApplication.class);
-		springApplication.run(args);
-//		SpringApplication.run(MistoApplication.class, args);
+		SpringApplication.run(MistoApplication.class, args);
 	}
 }

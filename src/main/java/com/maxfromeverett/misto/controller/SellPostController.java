@@ -2,20 +2,16 @@ package com.maxfromeverett.misto.controller;
 
 import com.maxfromeverett.misto.dto.SellPostDto;
 import com.maxfromeverett.misto.entity.SellPost;
-import com.maxfromeverett.misto.exceptions.ErrorResponse;
+import com.maxfromeverett.misto.exceptions.NotEnoughInformationForPostCreationException;
 import com.maxfromeverett.misto.service.SellPostService;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.context.request.WebRequest;
 
 @RestController
 @RequestMapping(path = "/api/v1/sell-posts", produces = "application/json")
@@ -24,12 +20,16 @@ import org.springframework.web.context.request.WebRequest;
 public class SellPostController {
 
   private final SellPostService sellPostService;
+
   @GetMapping
-  public List<SellPostDto> getAllSellPostsOptionallyFiltered(
+  public List<SellPostDto> getAllSellPostsOptionallyFilteredByNamePriceAndGoodType(
       @RequestParam("search") Optional<String> searchRequest,
       @RequestParam("from") Optional<Long> fromOptional,
-      @RequestParam("to") Optional<Long> toOptional) {
-    return sellPostService.getAllPosts(searchRequest, fromOptional, toOptional)
+      @RequestParam("to") Optional<Long> toOptional,
+      @RequestParam("goodType") Optional<String> goodType
+      )
+  {
+    return sellPostService.getSellPosts(searchRequest, fromOptional, toOptional, goodType)
         .stream()
         .map(SellPostDto::fromSellPost)
         .collect(Collectors.toList());
@@ -37,24 +37,27 @@ public class SellPostController {
 
   @PostMapping
   public SellPostDto savePost(@Valid @RequestBody SellPost sellPost, BindingResult bindingResult){
-      return SellPostDto.fromSellPost(sellPostService.savePost(sellPost, bindingResult));
+
+    if (bindingResult.hasErrors()) {
+      String errorMessage = "Error: " + bindingResult.getFieldError().getDefaultMessage();
+      throw new NotEnoughInformationForPostCreationException(errorMessage);
+    }
+
+    return SellPostDto.fromSellPost(sellPostService.savePost(sellPost));
   }
 
   @GetMapping("/{id}")
-  public Optional<SellPostDto> getSellPostById(@PathVariable Long id) {
-    return Optional.ofNullable(SellPostDto.fromSellPost(sellPostService.getPostById(id)));
+  public SellPostDto getSellPostById(@PathVariable Long id) {
+    return SellPostDto.fromSellPost(sellPostService.getPostById(id));
   }
 
   @DeleteMapping("/{id}")
   public void deleteById(@PathVariable Long id) {
-    sellPostService.deletePostById(id);
+    sellPostService.deleteSellPostById(id);
   }
 
-  @GetMapping("/category/{goodType}")
-  public List<SellPostDto> openSellPostCategory(@PathVariable String goodType){
-    return sellPostService.findByGoodType(goodType)
-        .stream()
-        .map(SellPostDto::fromSellPost)
-        .collect(Collectors.toList());
+  @PatchMapping("/{id}")
+  public SellPostDto patchSellPostById(@PathVariable Long id, @Valid @RequestBody SellPost sellPost) {
+    return SellPostDto.fromSellPost(sellPostService.patchSellPostById(id, sellPost));
   }
 }
