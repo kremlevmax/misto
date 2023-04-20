@@ -1,15 +1,15 @@
 package com.maxfromeverett.misto.dto;
 
-import com.maxfromeverett.misto.entity.Image;
 import com.maxfromeverett.misto.entity.Post;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public class PostDto {
   private Long id;
   private String title;
   private String description;
-  private List<Image> images;
+  private List<MultipartFile> images;
   private String author;
   private String phoneNumber;
   private Long zipCode;
@@ -41,11 +41,11 @@ public class PostDto {
     this.description = description;
   }
 
-  public List<Image> getImages() {
+  public List<MultipartFile> getImages() {
     return images;
   }
 
-  public void setImages(List<Image> images) {
+  public void setImages(List<MultipartFile> images) {
     this.images = images;
   }
 
@@ -97,7 +97,7 @@ public class PostDto {
     isActive = active;
   }
 
-  public PostDto(Long id, String title, String description, List<Image> images, String author,
+  public PostDto(Long id, String title, String description, List<MultipartFile> images, String author,
       String phoneNumber, Long zipCode, String town, LocalDateTime postDateTime, Boolean isActive) {
     this.id = id;
     this.title = title;

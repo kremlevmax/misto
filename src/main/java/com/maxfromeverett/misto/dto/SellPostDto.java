@@ -1,11 +1,10 @@
 package com.maxfromeverett.misto.dto;
 
-import com.maxfromeverett.misto.entity.Image;
-import com.maxfromeverett.misto.entity.Post;
 import com.maxfromeverett.misto.entity.SellPost;
 import com.maxfromeverett.misto.entity.enums.GoodType;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public class SellPostDto extends PostDto {
   private GoodType goodType;
@@ -29,7 +28,7 @@ public class SellPostDto extends PostDto {
 
   public SellPostDto(
       Long id, String title, String description,
-      List<Image> images, String author, String phoneNumber,
+      List<MultipartFile> images, String author, String phoneNumber,
       Long zipCode, String town, LocalDateTime postDateTime,
       Boolean isActive, GoodType goodType, Long price) {
     super(id, title, description, images, author, phoneNumber, zipCode, town, postDateTime,

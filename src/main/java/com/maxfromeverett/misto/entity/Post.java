@@ -15,6 +15,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor( force=true)
@@ -31,9 +32,9 @@ public abstract class Post {
   @NotBlank(message = "Description has to be provided for creating a post")
   private String description;
 
-  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)   //mappedBy = "post",
-  @JoinColumn(name = "post_id")
-  private List<Image> images = new ArrayList<>();
+//  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)   //mappedBy = "post",
+//  @JoinColumn(name = "post_id")
+  private List<MultipartFile> images;
 
   private String author;
   private String phoneNumber;
@@ -43,8 +44,4 @@ public abstract class Post {
   private String town;
   private LocalDateTime postDateTime;
   private Boolean isActive;
-
-  public void updateImageList(List<Image> images) {
-    this.images = new ArrayList<>(images);
-  }
 }
