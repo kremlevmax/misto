@@ -32,8 +32,6 @@ public abstract class Post {
   @NotBlank(message = "Description has to be provided for creating a post")
   private String description;
 
-//  @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)   //mappedBy = "post",
-//  @JoinColumn(name = "post_id")
   private List<MultipartFile> images;
 
   private String author;
