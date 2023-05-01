@@ -9,7 +9,7 @@ public class PostDto {
   private Long id;
   private String title;
   private String description;
-  private List<MultipartFile> images;
+  private List<String> images;
   private String author;
   private String phoneNumber;
   private Long zipCode;
@@ -41,11 +41,11 @@ public class PostDto {
     this.description = description;
   }
 
-  public List<MultipartFile> getImages() {
+  public List<String> getImages() {
     return images;
   }
 
-  public void setImages(List<MultipartFile> images) {
+  public void setImages(List<String> images) {
     this.images = images;
   }
 
@@ -97,7 +97,7 @@ public class PostDto {
     isActive = active;
   }
 
-  public PostDto(Long id, String title, String description, List<MultipartFile> images, String author,
+  public PostDto(Long id, String title, String description, List<String> images, String author,
       String phoneNumber, Long zipCode, String town, LocalDateTime postDateTime, Boolean isActive) {
     this.id = id;
     this.title = title;

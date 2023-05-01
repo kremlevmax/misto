@@ -28,7 +28,7 @@ public class SellPostDto extends PostDto {
 
   public SellPostDto(
       Long id, String title, String description,
-      List<MultipartFile> images, String author, String phoneNumber,
+      List<String> images, String author, String phoneNumber,
       Long zipCode, String town, LocalDateTime postDateTime,
       Boolean isActive, GoodType goodType, Long price) {
     super(id, title, description, images, author, phoneNumber, zipCode, town, postDateTime,

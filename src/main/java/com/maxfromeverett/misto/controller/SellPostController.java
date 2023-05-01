@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,19 +38,15 @@ public class SellPostController {
   }
 
   @PostMapping
-  public SellPostDto savePost(@Valid @RequestBody SellPost sellPost, BindingResult bindingResult){
-
-    if (bindingResult.hasErrors()) {
-      String errorMessage = "Error: " + bindingResult.getFieldError().getDefaultMessage();
-      throw new NotEnoughInformationForPostCreationException(errorMessage);
-    }
-
-    return SellPostDto.fromSellPost(sellPostService.savePost(sellPost));
+  public ResponseEntity<SellPostDto> savePost(@Valid @RequestBody SellPost sellPost){
+    return new ResponseEntity<SellPostDto>(SellPostDto.fromSellPost(sellPostService.savePost(sellPost)),
+    HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
-  public SellPostDto getSellPostById(@PathVariable Long id) {
-    return SellPostDto.fromSellPost(sellPostService.getPostById(id));
+  public ResponseEntity<SellPostDto> getSellPostById(@PathVariable Long id) {
+    return new ResponseEntity<SellPostDto>(SellPostDto.fromSellPost(sellPostService.getPostById(id)),
+        HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
