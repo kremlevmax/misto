@@ -59,7 +59,7 @@ public class SellPostService {
     return repository.save(SellPost.builder()
         .title(sellPost.getTitle())
         .description(sellPost.getDescription())
-        .images(sellPost.getImages())
+//        .images(sellPost.getImages())
         .author(sellPost.getAuthor())
         .phoneNumber(sellPost.getPhoneNumber())
         .zipCode(sellPost.getZipCode())
@@ -89,9 +89,9 @@ public class SellPostService {
     if (patch.getDescription() != null) {
       postToPatch.setDescription(patch.getDescription());
     }
-    if (patch.getImages() != null) {
-      postToPatch.setImages(patch.getImages());
-    }
+//    if (patch.getImages() != null) {
+//      postToPatch.setImages(patch.getImages());
+//    }
     if (patch.getPhoneNumber() != null) {
       postToPatch.setPhoneNumber(patch.getPhoneNumber());
     }
@@ -110,32 +110,32 @@ public class SellPostService {
     return savePost(postToPatch);
   }
 
-  @PostConstruct
-  void initDatabase() {
-    repository.save(SellPost.builder()
-        .title("Bicycle")
-        .description("New")
-        .price(Long.valueOf(100))
-        .goodType(GoodType.BIKES)
-        .zipCode(Long.valueOf(12345))
-        .build());
-
-    repository.save(SellPost.builder()
-        .title("boat")
-        .description("old")
-        .price(Long.valueOf(300))
-        .goodType(GoodType.BOATS)
-        .zipCode(Long.valueOf(12345))
-        .build());
-
-    repository.save(SellPost.builder()
-        .title("Телевизор")
-        .description("Большой")
-        .price(Long.valueOf(500))
-        .goodType(GoodType.ELECTRONICS)
-        .zipCode(Long.valueOf(12345))
-        .build());
-  }
+//  @PostConstruct
+//  void initDatabase() {
+//    repository.save(SellPost.builder()
+//        .title("Bicycle")
+//        .description("New")
+//        .price(Long.valueOf(100))
+//        .goodType(GoodType.BIKES)
+//        .zipCode(Long.valueOf(12345))
+//        .build());
+//
+//    repository.save(SellPost.builder()
+//        .title("boat")
+//        .description("old")
+//        .price(Long.valueOf(300))
+//        .goodType(GoodType.BOATS)
+//        .zipCode(Long.valueOf(12345))
+//        .build());
+//
+//    repository.save(SellPost.builder()
+//        .title("Телевизор")
+//        .description("Большой")
+//        .price(Long.valueOf(500))
+//        .goodType(GoodType.ELECTRONICS)
+//        .zipCode(Long.valueOf(12345))
+//        .build());
+//  }
 
 
 }

@@ -27,7 +27,7 @@ public abstract class Post {
   @NotBlank(message = "Description has to be provided for creating a post")
   private String description;
 
-  private List<String> images;
+//  private List<String> images;
 
   private String author;
   private String phoneNumber;
@@ -36,5 +36,6 @@ public abstract class Post {
   private Long zipCode;
   private String town;
   private LocalDateTime postDateTime;
+  @NotNull
   private Boolean isActive;
 }
