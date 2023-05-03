@@ -14,8 +14,6 @@ public class SellPostDto extends PostDto {
   private GoodType goodType;
   private Long price;
 
-
-
   public static SellPostDto fromSellPost(SellPost sellPost){
     return SellPostDto.builder()
         .id(sellPost.getId())

@@ -2,7 +2,6 @@ package com.maxfromeverett.misto.controller;
 
 import com.maxfromeverett.misto.dto.SellPostDto;
 import com.maxfromeverett.misto.entity.SellPost;
-import com.maxfromeverett.misto.exceptions.NotEnoughInformationForPostCreationException;
 import com.maxfromeverett.misto.service.SellPostService;
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -10,13 +9,12 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/sell-posts", produces = "application/json")
+@RequestMapping(path = "/api/v1/sell-posts")
 //@CrossOrigin(origins = "http://localhost:8080/")
 @AllArgsConstructor
 public class SellPostController {
