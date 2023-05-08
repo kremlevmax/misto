@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
-@Table(name = "sell_posts")
+@Table(name = "sell_post")
 @NoArgsConstructor(access= AccessLevel.PRIVATE, force=true)
 @SuperBuilder(toBuilder = true)
 public class SellPost extends Post {
