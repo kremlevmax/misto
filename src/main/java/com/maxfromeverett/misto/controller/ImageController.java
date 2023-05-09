@@ -33,11 +33,14 @@ public class ImageController {
   @PostMapping("/upload")
   public ResponseEntity<?> uploadImage(@RequestParam("post_id") Integer post_id, @RequestParam("files") MultipartFile[] files)
       throws IOException {
-    System.out.println(file.getSize());
-    Image image = new Image();
-    image.setBody(file.getBytes());
-    image.setPost_id(post_id);
-    service.save(image);
+    for (MultipartFile file : files) {
+      System.out.println(file.getSize());
+      Image image = new Image();
+      image.setBody(file.getBytes());
+      image.setPost_id(post_id);
+      service.save(image);
+    }
+
 
     return ResponseEntity.ok().build();
   }
