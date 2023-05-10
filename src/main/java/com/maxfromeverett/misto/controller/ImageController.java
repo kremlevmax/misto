@@ -1,12 +1,9 @@
 package com.maxfromeverett.misto.controller;
 
 import com.maxfromeverett.misto.dto.ImageDto;
-import com.maxfromeverett.misto.entity.Image;
-import com.maxfromeverett.misto.repository.ImageRepository;
 import com.maxfromeverett.misto.service.ImageService;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,26 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(path = "/api/v1/images")
 public class ImageController {
 
-  private ImageRepository service;
+  private ImageService service;
 
   @GetMapping("/{id}")
   public ResponseEntity<ImageDto> getSellPostById(@PathVariable Long id) {
-    return new ResponseEntity<ImageDto>(ImageDto.fromImage(ImageService.getImageById(id)),
+    return new ResponseEntity<ImageDto>(ImageDto.fromImage(service.getImageById(id)),
         HttpStatus.OK);
   }
 
   @PostMapping("/upload")
   public ResponseEntity<?> uploadImage(@RequestParam("post_id") Integer post_id, @RequestParam("files") MultipartFile[] files)
       throws IOException {
-    for (MultipartFile file : files) {
-      System.out.println(file.getSize());
-      Image image = new Image();
-      image.setBody(file.getBytes());
-      image.setPost_id(post_id);
-      service.save(image);
-    }
 
-
+    service.saveFiles(post_id, files);
     return ResponseEntity.ok().build();
   }
 }
