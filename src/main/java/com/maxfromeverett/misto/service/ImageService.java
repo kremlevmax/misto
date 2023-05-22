@@ -27,7 +27,6 @@ public class ImageService {
       image.setPost_id(post_id);
       repository.save(image);
     }
-
-    ResponseEntity.ok().build();
+    return ResponseEntity.ok().build();
   }
 }
