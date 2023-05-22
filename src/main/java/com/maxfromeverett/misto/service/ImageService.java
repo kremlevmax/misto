@@ -4,6 +4,7 @@ import com.maxfromeverett.misto.entity.Image;
 import com.maxfromeverett.misto.repository.ImageRepository;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,7 @@ public class ImageService {
     return null;
   }
 
-  public void saveFiles(Integer post_id, MultipartFile[] files) throws IOException {
+  public ResponseEntity<?> saveFiles(Integer post_id, MultipartFile[] files) throws IOException {
     for (MultipartFile file : files) {
       System.out.println(file.getSize());
       Image image = new Image();
@@ -26,5 +27,7 @@ public class ImageService {
       image.setPost_id(post_id);
       repository.save(image);
     }
+
+    ResponseEntity.ok().build();
   }
 }

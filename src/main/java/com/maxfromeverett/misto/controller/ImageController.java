@@ -30,8 +30,6 @@ public class ImageController {
   @PostMapping("/upload")
   public ResponseEntity<?> uploadImage(@RequestParam("post_id") Integer post_id, @RequestParam("files") MultipartFile[] files)
       throws IOException {
-
-    service.saveFiles(post_id, files);
-    return ResponseEntity.ok().build();
+    return service.saveFiles(post_id, files);
   }
 }
