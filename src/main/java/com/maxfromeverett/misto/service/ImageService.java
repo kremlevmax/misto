@@ -26,7 +26,7 @@ public class ImageService {
 
       if(!Arrays.asList(
           "image/png", "image/jpg", "image/jpeg").contains(file.getContentType())) {
-        throw new IllegalStateException("File must be an Image");
+        throw new IllegalStateException("File must be an jpg or png");
       }
 
       Image image = new Image();
